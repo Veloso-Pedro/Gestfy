@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Gestfy</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/checkout.css">
+</head>
+
+<body class="pagina-checkout">
+
+    <div class="container-checkout">
+
+        <header class="header-checkout">
+            <a href="./index.html" class="link-voltar-topo">
+                <img src="./img/logo.jpeg" alt="Gestfy" height="32">
+                Voltar
+            </a>
+
+            <span class="ambiente-seguro">🔒 Ambiente Seguro e Criptografado</span>
+        </header>
+
+        <div class="grid-checkout">
+
+            <div class="coluna-dados">
+                <div class="cartao-branco">
+                    <h2>Dados da Empresa</h2>
+                    <p>Preenche os dados para criar a tua conta de acesso.</p>
+
+                    <form action="/api/cadastrar" method="POST" class="formulario">
+
+                        <div class="linha-inputs">
+                            <div class="grupo-input">
+                                <label for="nome">Nome Completo</label>
+                                <input type="text" id="nome" name="nome" required>
+                            </div>
+                            <div class="grupo-input">
+                                <label for="cnpj">CNPJ / CPF</label>
+                                <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" required>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="email">E-mail de Acesso</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="senha">Criar Palavra-passe</label>
+                            <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+
+                        <hr class="divisor">
+
+                        <h2>Pagamento</h2>
+                        <div class="grupo-input">
+                            <label for="cartao">Número do Cartão</label>
+                            <input type="text" id="cartao" name="cartao" placeholder="0000 0000 0000 0000">
+                        </div>
+
+                        <div class="linha-inputs">
+                            <div class="grupo-input">
+                                <label for="validade">Validade</label>
+                                <input type="text" id="validade" name="validade" placeholder="MM/AA">
+                            </div>
+                            <div class="grupo-input">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="botao-enviar-checkout">Confirmar Assinatura</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="coluna-resumo">
+                <div class="cartao-resumo">
+                    <h3>Resumo do Pedido</h3>
+
+                    <div class="item-resumo">
+                        <span>Plano Anual - Gestfy</span>
+                        <strong>R$ 468,00</strong>
+                    </div>
+
+                    <ul class="vantagens-resumo">
+                        <li>✔️ Acesso total ao sistema</li>
+                        <li>✔️ Relatórios avançados</li>
+                        <li>✔️ Suporte prioritário</li>
+                    </ul>
+
+                    <div class="total-resumo">
+                        <span>Total cobrado hoje:</span>
+                        <h2>R$ 468,00</h2>
+                    </div>
+
+                    <p class="garantia">🛡️ Garantia de 7 dias. Cancela quando quiseres.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

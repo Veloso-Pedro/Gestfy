@@ -1,0 +1,155 @@
+.pagina-checkout {
+    background-color: var(--gestfy-fundo-claro);
+    min-height: 100vh;
+}
+
+.container-checkout {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-checkout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 40px;
+}
+
+.link-voltar-topo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    color: var(--gestfy-escuro);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: opacity 0.3s;
+}
+
+.link-voltar-topo:hover {
+    opacity: 0.7;
+}
+
+.ambiente-seguro {
+    color: #10b981;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.grid-checkout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .grid-checkout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cartao-branco,
+.cartao-resumo {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(21, 16, 48, 0.08);
+}
+
+.cartao-branco h2 {
+    color: var(--gestfy-escuro);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.cartao-branco p {
+    color: #64748b;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.linha-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.divisor {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 30px 0;
+}
+
+.botao-enviar-checkout {
+    width: 100%;
+    background: linear-gradient(to right, var(--gestfy-roxo), var(--gestfy-laranja));
+    color: #ffffff;
+    border: none;
+    padding: 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 20px;
+}
+
+.botao-enviar-checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
+}
+
+.cartao-resumo {
+    background-color: #f8fafc;
+    border: 2px solid var(--gestfy-roxo);
+}
+
+.cartao-resumo h3 {
+    margin-top: 0;
+    color: var(--gestfy-escuro);
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+
+.item-resumo {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    color: var(--gestfy-escuro);
+}
+
+.vantagens-resumo {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.vantagens-resumo li {
+    margin-bottom: 10px;
+}
+
+.total-resumo {
+    margin-top: 30px;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.total-resumo h2 {
+    color: var(--gestfy-escuro);
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.garantia {
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 20px;
+}
