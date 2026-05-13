@@ -17,6 +17,10 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    border-radius: 35px;
+    height: 85vh;
+    align-self: start;
+    margin-top: 15px; 
 }
 
 .logo-area h2 {
@@ -244,4 +248,76 @@
     font-weight: bold;
     color: var(--gestfy-escuro);
     font-size: 16px;
+}
+
+/* =========================================
+   ESTILOS DO MODAL DE CONFIGURAÇÕES
+   ========================================= */
+.modal-oculto {
+    display: none; /* Escondido por padrão */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro transparente */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px); /* Efeito de desfoque moderno */
+}
+
+.modal-ativo {
+    display: flex; /* Mostra o modal */
+}
+
+.modal-conteudo {
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 30px;
+    animation: deslizarCima 0.3s ease-out;
+}
+
+@keyframes deslizarCima {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.cabecalho-modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.botao-fechar {
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.botao-fechar:hover {
+    color: #e74c3c; /* Fica vermelho ao passar o rato */
+}
+
+.dados-usuario p {
+    font-size: 15px;
+    margin-bottom: 15px;
+    color: #1a1a2e;
+}
+
+.dados-usuario span {
+    color: #4b4b4b;
+    display: block;
+    margin-top: 5px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #eaeaea;
 }

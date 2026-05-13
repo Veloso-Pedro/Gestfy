@@ -1,114 +1,342 @@
 import { supabase } from './supabase-config.js';
 
-const formRegistro = document.getElementById('form-registro');
-const btnRegistrar = document.getElementById('btn-registrar');
+console.log("🚀 Dashboard com Filtro Temporal Ativado e Protegido!");
 
-// ==========================================
-// NOVA PARTE: DETEÇÃO DO PLANO PELA URL
-// ==========================================
-const urlParams = new URLSearchParams(window.location.search);
-const planoEscolhido = urlParams.get('plano') || 'anual'; // Assume anual por padrão
+let regimeUsuarioReal = null;
+let usuarioAtualId = null;
+let dadosEmpresaGlobal = null;
+let emailGlobal = null;
 
-let valorPlano = 468.00;
-let nomePlano = "Plano Anual - Gestfy";
+// Elementos da Interface
+const displaySaldo = document.getElementById('saldo-atual');
+const displayReceitas = document.getElementById('total-receitas');
+const displayDespesas = document.getElementById('total-despesas');
+const corpoTabela = document.getElementById('corpo-tabela');
+const filtroPeriodo = document.getElementById('filtro-periodo');
 
-if (planoEscolhido === 'mensal') {
-    valorPlano = 49.00;
-    nomePlano = "Plano Mensal - Gestfy";
+const formLancamento = document.getElementById('form-lancamento');
+const btnAdicionar = document.querySelector('.botao-enviar');
+const inputValor = document.getElementById('valor-lancamento');
+const displayImposto = document.getElementById('valor-imposto');
+const avisoImposto = document.getElementById('aviso-imposto');
+
+const barraSegmentada = document.querySelector('.barra-segmentada');
+const listaCategorias = document.querySelector('.lista-categorias');
+
+/* =========================================
+   5. MODAL DE CONFIGURAÇÕES (MINHA CONTA)
+   ========================================= */
+const btnConfig = document.getElementById('btn-configuracoes');
+const modalConfig = document.getElementById('modal-configuracoes');
+const btnFecharModal = document.getElementById('fechar-modal');
+
+if (btnConfig && modalConfig && btnFecharModal) {
+    // Abrir o modal
+    btnConfig.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (dadosEmpresaGlobal) {
+            // Dicionário para deixar o nome do regime bonito
+            const nomesRegimes = {
+                'mei': 'MEI',
+                'me': 'ME (Simples Nacional)',
+                'lucro_presumido': 'Lucro Presumido',
+                'lucro_real': 'Lucro Real'
+            };
+
+            // Preenche o HTML com os dados guardados
+            document.getElementById('info-nome').innerText = dadosEmpresaGlobal.nome_responsavel || 'Não informado';
+            document.getElementById('info-email').innerText = emailGlobal || 'Não informado';
+            document.getElementById('info-cnpj').innerText = dadosEmpresaGlobal.cnpj_cpf || 'Não informado';
+            document.getElementById('info-regime').innerText = nomesRegimes[dadosEmpresaGlobal.regime_tributario] || 'Desconhecido';
+        }
+
+        // Exibe o modal na tela
+        modalConfig.classList.add('modal-ativo');
+    });
+
+    // Fechar ao clicar no X
+    btnFecharModal.addEventListener('click', () => {
+        modalConfig.classList.remove('modal-ativo');
+    });
+
+    // Fechar ao clicar no fundo escuro fora do cartão branco
+    window.addEventListener('click', (e) => {
+        if (e.target === modalConfig) {
+            modalConfig.classList.remove('modal-ativo');
+        }
+    });
 }
 
-// Atualiza os textos no HTML (se já tiveres colocado os IDs no checkout.html)
-const elNomePlano = document.getElementById('resumo-nome-plano');
-const elPrecoPlano = document.getElementById('resumo-preco-plano');
-const elPrecoTotal = document.getElementById('resumo-preco-total');
-const precoFormatado = valorPlano.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+/* =========================================
+   6. EXPORTAR RELATÓRIO PARA PDF
+   ========================================= */
+const btnRelatorio = document.getElementById('btn-relatorio');
 
-if (elNomePlano) elNomePlano.innerText = nomePlano;
-if (elPrecoPlano) elPrecoPlano.innerText = precoFormatado;
-if (elPrecoTotal) elPrecoTotal.innerText = precoFormatado;
-// ==========================================
+if (btnRelatorio) {
+    btnRelatorio.addEventListener('click', (e) => {
+        e.preventDefault();
 
+        // Pega a área principal do painel (cartões, gráfico e tabela)
+        // Ignora o menu lateral para o PDF ficar limpo e profissional
+        const elementoParaPDF = document.querySelector('.conteudo-principal');
 
-// O TEU CÓDIGO ORIGINAL CONTINUA INTACTO DAQUI PARA BAIXO:
-function validarEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+        // Descobre qual o período que está selecionado no filtro
+        const filtro = document.getElementById('filtro-periodo');
+        const nomePeriodo = filtro ? filtro.options[filtro.selectedIndex].text : 'Completo';
+
+        // Configurações de alta qualidade para o PDF
+        const opcoes = {
+            margin: [10, 10, 10, 10], // Margens do papel
+            filename: `Gestfy_Relatorio_${nomePeriodo.replace(/\s+/g, '_')}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true }, // Escala 2 para imagem cristalina
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Dá feedback visual ao utilizador
+        const textoOriginal = btnRelatorio.innerText;
+        btnRelatorio.innerText = "⏳ A preparar PDF...";
+
+        // Manda o html2pdf fazer o trabalho e depois restaura o botão
+        html2pdf().set(opcoes).from(elementoParaPDF).save().then(() => {
+            btnRelatorio.innerText = textoOriginal;
+        });
+    });
 }
 
-formRegistro.addEventListener('submit', async function (evento) {
-    evento.preventDefault();
-
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value;
-    const nome = document.getElementById('nome').value.trim();
-    const cnpj = document.getElementById('cnpj').value.trim();
-    const regime = document.getElementById('regime-tributario').value;
-
-    if (!validarEmail(email)) {
-        alert("⚠️ Por favor, insere um e-mail válido (ex: nome@dominio.com).");
-        document.getElementById('email').focus();
-        return;
-    }
-
-    if (senha.length < 6) {
-        alert("⚠️ A palavra-passe deve ter pelo menos 6 caracteres.");
-        return;
-    }
-
-    btnRegistrar.innerText = "A processar...";
-    btnRegistrar.disabled = true;
-
+/* =========================================
+   1. INICIALIZAÇÃO
+   ========================================= */
+async function inicializarDashboard() {
     try {
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: email,
-            password: senha,
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError || !user) {
+            window.location.href = "login.html";
+            return;
+        }
+        usuarioAtualId = user.id;
+
+        // Puxa TODOS os dados da empresa em vez de apenas o regime
+        const { data: empresa } = await supabase
+            .from('empresas')
+            .select('*')
+            .eq('id', usuarioAtualId)
+            .single();
+
+        if (empresa) {
+            regimeUsuarioReal = empresa.regime_tributario;
+            dadosEmpresaGlobal = empresa; // Guarda os dados para usar no modal
+            emailGlobal = user.email; // Guarda o e-mail
+        }
+
+        // PROTEÇÃO: Só escuta mudanças no filtro se o elemento existir no HTML
+        if (filtroPeriodo) {
+            filtroPeriodo.addEventListener('change', carregarResumoFinanceiro);
+        } else {
+            console.warn("⚠️ Filtro de período não encontrado no HTML (id='filtro-periodo').");
+        }
+
+        await carregarResumoFinanceiro();
+    } catch (erro) {
+        console.error("Erro na inicialização:", erro.message);
+    }
+}
+
+/* =========================================
+   2. LÓGICA DE FILTRO DE DATA
+   ========================================= */
+function obterDataInicio(periodo) {
+    if (!periodo) return null;
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    switch (periodo) {
+        case 'semana':
+            return new Date(hoje.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+        case 'mes':
+            return new Date(hoje.getFullYear(), hoje.getMonth(), 1).toISOString();
+        case 'ano':
+            return new Date(hoje.getFullYear(), 0, 1).toISOString();
+        default:
+            return null; // Retorna nulo para "tudo"
+    }
+}
+
+/* =========================================
+   3. BUSCA FILTRADA E CÁLCULOS
+   ========================================= */
+async function carregarResumoFinanceiro() {
+    try {
+        // Verifica qual o filtro selecionado (se o filtro existir)
+        const periodoSelecionado = filtroPeriodo ? filtroPeriodo.value : 'tudo';
+        const dataInicio = obterDataInicio(periodoSelecionado);
+
+        // Iniciamos a query básica
+        let query = supabase
+            .from('lancamentos')
+            .select('*')
+            .eq('empresa_id', usuarioAtualId);
+
+        // Se houver filtro de data, aplicamos .gte (maior ou igual a)
+        if (dataInicio) {
+            query = query.gte('created_at', dataInicio);
+        }
+
+        const { data: lancamentos, error } = await query.order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        let totalReceitas = 0;
+        let totalDespesas = 0;
+
+        if (corpoTabela) corpoTabela.innerHTML = '';
+
+        if (lancamentos.length === 0 && corpoTabela) {
+            corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px;">Nenhum lançamento no período selecionado.</td></tr>`;
+        }
+
+        lancamentos.forEach(lanc => {
+            if (lanc.tipo === 'receita') {
+                totalReceitas += parseFloat(lanc.valor);
+            } else {
+                totalDespesas += parseFloat(lanc.valor);
+            }
+
+            if (corpoTabela) {
+                let dataFormatada = lanc.created_at ? new Date(lanc.created_at).toLocaleDateString('pt-BR') : "N/A";
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${dataFormatada}</td>
+                    <td>${lanc.descricao}</td>
+                    <td><span class="${lanc.tipo === 'receita' ? 'etiqueta-receita' : 'etiqueta-despesa'}">${lanc.tipo === 'receita' ? 'Receita' : 'Despesa'}</span></td>
+                    <td>${formatarDinheiro(parseFloat(lanc.valor))}</td>
+                `;
+                corpoTabela.appendChild(tr);
+            }
         });
 
-        if (authError) throw authError;
+        // Cálculo de Impostos
+        let valorImposto = 0;
+        let textoImposto = "Aguardando receitas...";
 
-        if (!authData.user) {
-            throw new Error("Não foi possível criar o utilizador. Verifica se este e-mail já está registado.");
+        if (totalReceitas > 0 || regimeUsuarioReal === 'mei') {
+            if (regimeUsuarioReal === 'mei') {
+                valorImposto = 75.60;
+                textoImposto = "Guia DAS Fixa Mensal";
+            } else if (regimeUsuarioReal === 'me') {
+                valorImposto = totalReceitas * 0.06;
+                textoImposto = "6% sobre Receitas (Simples)";
+            } else if (regimeUsuarioReal === 'lucro_presumido') {
+                valorImposto = totalReceitas * 0.1633;
+                textoImposto = "16,33% sobre Receitas";
+            } else if (regimeUsuarioReal === 'lucro_real') {
+                valorImposto = totalReceitas * 0.15;
+                textoImposto = "Reserva de 15%";
+            }
         }
 
-        const userUuid = authData.user.id;
+        const saldoAtual = totalReceitas - totalDespesas;
+        const lucroLiquido = totalReceitas - totalDespesas - valorImposto;
 
-        const { error: dbError } = await supabase
-            .from('empresas')
-            .insert([{
-                id: userUuid,
-                nome_responsavel: nome,
-                cnpj_cpf: cnpj,
-                email: email,
-                regime_tributario: regime
-            }]);
+        if (displayReceitas) displayReceitas.innerText = formatarDinheiro(totalReceitas);
+        if (displayDespesas) displayDespesas.innerText = formatarDinheiro(totalDespesas);
+        if (displaySaldo) displaySaldo.innerText = formatarDinheiro(saldoAtual);
+        if (displayImposto) displayImposto.innerText = formatarDinheiro(valorImposto);
+        if (avisoImposto) avisoImposto.innerText = textoImposto;
 
-        if (dbError) throw dbError;
-
-        const { error: payError } = await supabase
-            .from('pagamentos')
-            .insert([{
-                empresa_id: userUuid,
-                valor_pago: valorPlano // AGORA USA O VALOR DINÂMICO
-            }]);
-
-        if (payError) throw payError;
-
-        // Atualizei o alerta para mostrar o sucesso com o valor correto
-        alert(`Conta criada e pagamento de ${precoFormatado} registado com sucesso! 🎉`);
-        window.location.href = "dashboard.html";
+        atualizarGraficoDistribuicao(totalReceitas, totalDespesas, valorImposto, lucroLiquido);
 
     } catch (erro) {
-        console.error("❌ Falha no Checkout:", erro.message);
-
-        if (erro.message.includes("empresas_cnpj_cpf_key")) {
-            alert("⚠️ Este CNPJ/CPF já está registado noutra conta.");
-        } else if (erro.message.includes("already registered")) {
-            alert("⚠️ Este e-mail já está em uso.");
-        } else {
-            alert("Erro: " + erro.message);
-        }
-    } finally {
-        btnRegistrar.innerText = "Confirmar Assinatura";
-        btnRegistrar.disabled = false;
+        console.error("Erro ao carregar dados:", erro.message);
     }
-});
+}
+
+function formatarDinheiro(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function atualizarGraficoDistribuicao(receitas, despesas, impostos, lucro) {
+    if (!barraSegmentada || !listaCategorias) return;
+
+    if (receitas > 0) {
+        let pDespesas = Math.max(0, (despesas / receitas) * 100);
+        let pImpostos = Math.max(0, (impostos / receitas) * 100);
+        let pLucro = Math.max(0, (lucro / receitas) * 100);
+
+        barraSegmentada.innerHTML = `
+            <div class="segmento bg-roxo" style="width: ${pDespesas}%;" title="Despesas"></div>
+            <div class="segmento bg-laranja" style="width: ${pImpostos}%;" title="Impostos"></div>
+            <div class="segmento bg-azul" style="width: ${pLucro}%;" title="Lucro"></div>
+        `;
+
+        listaCategorias.innerHTML = `
+            <div class="item-categoria">
+                <div class="icone-categoria texto-roxo">🔴</div>
+                <div class="info-categoria"><strong>Despesas Pagas</strong><span>${pDespesas.toFixed(1)}% das receitas</span></div>
+                <div class="valor-categoria">${formatarDinheiro(despesas)}</div>
+            </div>
+            <div class="item-categoria">
+                <div class="icone-categoria texto-laranja">📄</div>
+                <div class="info-categoria"><strong>Reserva de Impostos</strong><span>${pImpostos.toFixed(1)}% das receitas</span></div>
+                <div class="valor-categoria">${formatarDinheiro(impostos)}</div>
+            </div>
+            <div class="item-categoria">
+                <div class="icone-categoria texto-azul">💰</div>
+                <div class="info-categoria"><strong>Lucro Líquido</strong><span>${pLucro.toFixed(1)}% das receitas</span></div>
+                <div class="valor-categoria">${formatarDinheiro(lucro)}</div>
+            </div>
+        `;
+    } else {
+        barraSegmentada.innerHTML = `<div class="segmento bg-cinza" style="width: 100%;"></div>`;
+        listaCategorias.innerHTML = `<p style="text-align:center; color: #666; padding: 15px;">Sem faturamento no período.</p>`;
+    }
+}
+
+/* =========================================
+   4. ADICIONAR NOVO LANÇAMENTO
+   ========================================= */
+// PROTEÇÃO: Verifica se o formulário existe na página antes de adicionar o evento
+if (formLancamento) {
+    formLancamento.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const valorNumerico = parseFloat(inputValor.value.replace(',', '.')) || 0;
+        const descricao = document.getElementById('descricao-lancamento').value;
+        const tipo = document.getElementById('tipo-lancamento').value;
+
+        if (valorNumerico <= 0 || !descricao) {
+            alert("⚠️ Por favor, insere um valor e uma descrição válidos.");
+            return;
+        }
+
+        const textoOriginal = btnAdicionar.innerText;
+        btnAdicionar.innerText = "A registar...";
+        btnAdicionar.disabled = true;
+
+        try {
+            const { error } = await supabase.from('lancamentos').insert([{
+                empresa_id: usuarioAtualId,
+                tipo: tipo,
+                valor: valorNumerico,
+                descricao: descricao
+            }]);
+
+            if (error) throw error;
+
+            formLancamento.reset();
+            await carregarResumoFinanceiro(); // Atualiza tudo imediatamente
+
+        } catch (erro) {
+            alert("Erro ao registar: " + erro.message);
+        } finally {
+            btnAdicionar.innerText = textoOriginal;
+            btnAdicionar.disabled = false;
+        }
+    });
+}
+
+// Inicia a aplicação
+inicializarDashboard();
