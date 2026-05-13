@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestfy</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="fundo-dashboard">
+
+    <div class="layout-dashboard">
+
+        <aside class="menu-lateral">
+            <div class="logo-area">
+                <h2>Gestfy.</h2>
+            </div>
+            <nav class="navegacao-lateral">
+                <a href="#" class="ativo">📊 Visão Geral</a>
+                <a href="#">📄 Relatórios</a>
+                <a href="#">⚙️ Configurações</a>
+            </nav>
+            <a href="/index.html" class="botao-sair">Sair</a>
+        </aside>
+
+        <main class="conteudo-principal">
+
+            <header class="cabecalho-dashboard">
+                <h1>Olá, Empreendedor! 👋</h1>
+                <p>Aqui está o resumo financeiro da tua empresa hoje.</p>
+
+                <div class="filtro-tempo">
+                    <label for="filtro-periodo" style="font-weight: bold; color: white;">Período:</label>
+                    <select id="filtro-periodo" class="campo-select">
+                        <option value="tudo">Todo o período</option>
+                        <option value="semana">Últimos 7 dias</option>
+                        <option value="mes" selected>Este Mês</option>
+                        <option value="ano">Este Ano</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="grade-cartoes">
+                <div class="cartao-resumo">
+                    <h3>Saldo Atual</h3>
+                    <h2 id="saldo-atual">R$ 0,00</h2>
+                </div>
+
+                <div class="cartao-resumo entrada">
+                    <h3>Total Recebido</h3>
+                    <h2 id="total-receitas">R$ 0,00</h2>
+                </div>
+                <div class="cartao-resumo saida">
+                    <h3>Total Gasto</h3>
+                    <h2 id="total-despesas">R$ 0,00</h2>
+                </div>
+                <div class="cartao-resumo imposto-destaque">
+                    <h3>Reserva para Impostos</h3>
+                    <h2 id="valor-imposto">R$ 0,00</h2>
+                    <span id="aviso-imposto">A carregar regime...</span>
+                </div>
+            </div>
+
+            <div class="grade-central">
+
+                <div class="cartao-branco">
+                    <h2>Novo Lançamento</h2>
+                    <form id="form-lancamento" class="formulario">
+                        <div class="linha-inputs">
+                            <div class="grupo-input">
+                                <label for="tipo-lancamento">Tipo</label>
+                                <select id="tipo-lancamento" class="campo-select">
+                                    <option value="receita">🟢 Receita (Entrada)</option>
+                                    <option value="despesa">🔴 Despesa (Saída)</option>
+                                </select>
+                            </div>
+                            <div class="grupo-input">
+                                <label for="valor-lancamento">Valor (R$)</label>
+                                <input type="number" id="valor-lancamento" placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="descricao-lancamento">Descrição / Categoria</label>
+                            <input type="text" id="descricao-lancamento" placeholder="Ex: Venda de Produto" required>
+                        </div>
+
+                        <button type="submit" class="botao-enviar">Adicionar ao Caixa</button>
+                    </form>
+                </div>
+
+                <div class="cartao-branco">
+                    <div class="cabecalho-gastos">
+                        <span class="subtitulo-gastos">Resumo Mensal</span>
+                        <h2 class="total-gastos">Visão Geral</h2>
+                    </div>
+                    <div class="barra-segmentada">
+                        <div class="segmento bg-laranja" style="width: 33%;"></div>
+                        <div class="segmento bg-roxo" style="width: 33%;"></div>
+                        <div class="segmento bg-azul" style="width: 34%;"></div>
+                    </div>
+                    <div class="lista-categorias">
+                        <p style="font-size: 13px; color: #666; text-align: center; margin-top: 20px;">
+                            Utiliza os lançamentos para gerar estatísticas.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="cartao-branco margem-topo">
+                <h2>Histórico de Transações</h2>
+                <div class="tabela-responsiva">
+                    <table class="tabela-gestfy">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 20px; color: #999;">
+                                    A carregar transações...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="./js/supabase-config.js"></script>
+    <script type="module" src="./js/dashboard.js"></script>
+</body>
+
+</html>

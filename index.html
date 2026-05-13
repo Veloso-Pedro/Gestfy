@@ -140,58 +140,119 @@
 
                 </div>
             </div>
-
         </section>
+        <!-- Fim da Seção Sobre -->
 
-        <!-- Seçao de Pagamentos -->
-        <section id="planos" class="secao-planos">
+        <<!-- SECÇÃO DE AVALIAÇÕES (CARROSSEL) -->
+            <section id="avaliacoes" class="secao-avaliacoes">
 
-            <div class="cabecalho-planos">
-                <h2>Planos Simples e Transparentes</h2>
-                <p>Escolha a melhor opção para organizar as finanças da sua empresa.</p>
-            </div>
-
-            <div class="grade-planos">
-
-                <div class="cartao-plano">
-                    <h3>Plano Mensal</h3>
-                    <div class="preco"><span>R$</span> 49 <span>/mês</span></div>
-                    <ul class="lista-vantagens">
-                        <li>✔️ Acesso total ao sistema</li>
-                        <li>✔️ Gestão de Notas Fiscais</li>
-                        <li>✔️ Suporte por email</li>
-                    </ul>
-                    <a href="./checkout.html" class="botao-plano-secundario">Assinar Mensal</a>
+                <div class="cabecalho-avaliacoes">
+                    <h2>O que dizem os nossos clientes</h2>
+                    <p>Empreendedores que simplificaram a gestão financeira com a Gestfy.</p>
                 </div>
 
-                <div class="cartao-plano destaque">
-                    <div class="etiqueta-popular">Mais Escolhido</div>
-                    <h3>Plano Anual</h3>
-                    <div class="preco"><span>R$</span> 39 <span>/mês</span></div>
-                    <p class="economia">R$ 468 por ano</p>
-                    <ul class="lista-vantagens">
-                        <li>✔️ Tudo do plano mensal</li>
-                        <li>✔️ Relatórios avançados</li>
-                        <li>✔️ Suporte prioritário via WhatsApp</li>
-                    </ul>
-                    <a href="./checkout.html" class="botao-plano-primario">Assinar Anual</a>
+                <div class="carrossel-wrapper">
+
+                    <button class="botao-carrossel anterior" onclick="moverCarrossel(-1)">&#10094;</button>
+
+                    <div class="carrossel-container">
+                        <div class="carrossel-trilha" id="trilha-avaliacoes">
+
+                            <div class="cartao-avaliacao">
+                                <div class="estrelas">★★★★★</div>
+                                <p class="depoimento">"Antes da Gestfy, eu perdia horas a tentar organizar as contas.
+                                    Agora, tenho previsibilidade e sei exatamente para onde vai o meu dinheiro."</p>
+                                <div class="autor-avaliacao">
+                                    <strong>Mariana Costa</strong><span>MEI - Loja de Roupas</span>
+                                </div>
+                            </div>
+
+                            <div class="cartao-avaliacao">
+                                <div class="estrelas">★★★★★</div>
+                                <p class="depoimento">"A consultoria em conjunto com o plano anual foi um divisor de
+                                    águas. O dashboard mostra tudo de forma clara, ajudando-me a reduzir gastos."</p>
+                                <div class="autor-avaliacao">
+                                    <strong>Carlos Mendes</strong><span>Prestador de Serviços</span>
+                                </div>
+                            </div>
+
+                            <div class="cartao-avaliacao">
+                                <div class="estrelas">★★★★★</div>
+                                <p class="depoimento">"Como designer freelancer, eu detestava a parte financeira. A
+                                    Gestfy automatizou a minha gestão de forma incrível. Recomendo muito!"</p>
+                                <div class="autor-avaliacao">
+                                    <strong>Ana Beatriz</strong><span>Designer Freelancer</span>
+                                </div>
+                            </div>
+
+                            <div class="cartao-avaliacao">
+                                <div class="estrelas">★★★★★</div>
+                                <p class="depoimento">"O suporte é impecável e o sistema nunca falha. O melhor
+                                    investimento que fiz para a saúde financeira do meu negócio este ano."</p>
+                                <div class="autor-avaliacao">
+                                    <strong>João Pedro</strong><span>Dono de Restaurante</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button class="botao-carrossel proximo" onclick="moverCarrossel(1)">&#10095;</button>
+
                 </div>
 
-                <div class="cartao-plano consultoria">
-                    <h3>Consultoria Especializada</h3>
-                    <div class="preco">Personalizado</div>
-                    <p class="descricao-consultoria">Precisa de ajuda humana para organizar as finanças e o planejamento
-                        da sua empresa?</p>
-                    <ul class="lista-vantagens">
-                        <li>✔️ Diagnóstico financeiro</li>
-                        <li>✔️ Reuniões online</li>
-                        <li>✔️ Planeamento estratégico</li>
-                    </ul>
-                    <a href="#contato" class="botao-plano-secundario">Falar com Consultor</a>
+            </section>
+
+            <!-- Seçao de Pagamentos -->
+            <section id="planos" class="secao-planos">
+
+                <div class="cabecalho-planos">
+                    <h2>Planos Simples e Transparentes</h2>
+                    <p>Escolha a melhor opção para organizar as finanças da sua empresa.</p>
                 </div>
 
-            </div>
-        </section>
+                <div class="grade-planos">
+
+                    <div class="cartao-plano">
+                        <h3>Plano Mensal</h3>
+                        <div class="preco"><span>R$</span> 49 <span>/mês</span></div>
+                        <ul class="lista-vantagens">
+                            <li>✔️ Acesso total ao sistema</li>
+                            <li>✔️ Gestão de Notas Fiscais</li>
+                            <li>✔️ Suporte por email</li>
+                        </ul>
+                        <a href="./checkout.html?plano=mensal" class="botao-plano-secundario">Assinar Mensal</a>
+                    </div>
+
+                    <div class="cartao-plano destaque">
+                        <div class="etiqueta-popular">Mais Escolhido</div>
+                        <h3>Plano Anual</h3>
+                        <div class="preco"><span>R$</span> 39 <span>/mês</span></div>
+                        <p class="economia">R$ 468 por ano</p>
+                        <ul class="lista-vantagens">
+                            <li>✔️ Tudo do plano mensal</li>
+                            <li>✔️ Relatórios avançados</li>
+                            <li>✔️ Suporte prioritário via WhatsApp</li>
+                        </ul>
+                        <a href="./checkout.html?plano=anual" class="botao-plano-primario">Assinar Anual</a>
+                    </div>
+
+                    <div class="cartao-plano consultoria">
+                        <h3>Consultoria Especializada</h3>
+                        <div class="preco">Personalizado</div>
+                        <p class="descricao-consultoria">Precisa de ajuda humana para organizar as finanças e o
+                            planejamento
+                            da sua empresa?</p>
+                        <ul class="lista-vantagens">
+                            <li>✔️ Diagnóstico financeiro</li>
+                            <li>✔️ Reuniões online</li>
+                            <li>✔️ Planeamento estratégico</li>
+                        </ul>
+                        <a href="#contato" class="botao-plano-secundario">Falar com Consultor</a>
+                    </div>
+
+                </div>
+            </section>
     </main>
     <footer id="contato" class="rodape-contato">
 
@@ -199,7 +260,7 @@
             <h2>Fale com um Consultor</h2>
             <p>Preencha os dados abaixo e a nossa equipa entrará em contacto para ajudar a sua empresa a crescer.</p>
 
-            <form action="#" method="POST" class="formulario">
+            <form  id="form-contato" action="#" method="POST" class="formulario">
 
                 <div class="grupo-input">
                     <label for="nome">Nome Completo</label>
@@ -228,6 +289,10 @@
         </div>
 
     </footer>
+
+    <script type="module" src="./js/supabase-config.js"></script>
+
+    <script type="module" src="./js/contato.js"></script>
 </body>
 
 </html>

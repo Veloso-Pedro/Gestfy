@@ -526,6 +526,131 @@ body {
     background-color: #e2e8f0;
 }
 
+/* =========================================
+   SECÇÃO DE AVALIAÇÕES (CARROSSEL)
+   ========================================= */
+
+.secao-avaliacoes {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.cabecalho-avaliacoes {
+    text-align: center;
+    color: var(--gestfy-fundo-claro);
+    margin-bottom: 50px;
+}
+
+.cabecalho-avaliacoes h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.cabecalho-avaliacoes p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+.carrossel-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    gap: 15px; 
+}
+
+.carrossel-container {
+    overflow: hidden; 
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 16px;
+}
+
+.carrossel-trilha {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.cartao-avaliacao {
+    flex: 0 0 100%; 
+    box-sizing: border-box;
+    
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(21, 16, 48, 0.15);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    transition: transform 0.3s;
+}
+
+.cartao-avaliacao:hover {
+    transform: translateY(-8px);
+}
+
+@media (min-width: 768px) {
+    .cartao-avaliacao {
+        flex: 0 0 calc(50% - 10px);
+    }
+}
+
+.botao-carrossel {
+    background: linear-gradient(to right, var(--gestfy-roxo), var(--gestfy-laranja));
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
+    transition: transform 0.2s;
+    flex-shrink: 0; 
+}
+
+.botao-carrossel:hover {
+    transform: scale(1.1);
+}
+
+.estrelas {
+    color: var(--gestfy-laranja);
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.depoimento {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+
+.autor-avaliacao {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 15px;
+}
+
+.autor-avaliacao strong {
+    display: block;
+    color: var(--gestfy-escuro);
+    font-size: 16px;
+}
+
+.autor-avaliacao span {
+    color: #64748b;
+    font-size: 13px;
+}
 /*Fim body*/
 /*Inicio footer*/
 
