@@ -739,3 +739,63 @@ body {
 }
 
 /*Fim footer*/
+
+/* Responsividade */
+/* =========================================
+   RESPONSIVIDADE (MOBILE) - STYLE.CSS
+   ========================================= */
+@media (max-width: 768px) {
+    /* Ajusta o Menu */
+    .menu-navegacao {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+    .links-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .acoes-menu {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Ajusta os textos e botões principais */
+    .hero-conteudo h1 {
+        font-size: 32px;
+    }
+    .botoes-hero {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+    .botao-hero-primario, .botao-hero-secundario {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Ajusta a Demonstração (Mockup) */
+    .mockup-sistema {
+        grid-template-columns: 1fr; /* Remove a divisão lado a lado */
+    }
+    .mockup-sidebar {
+        display: none; /* Esconde o menu lateral do desenho para poupar espaço no telemóvel */
+    }
+    .mockup-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* Ajusta as grelhas (Sobre e Planos) para não transbordarem o ecrã */
+    .sobre-grid {
+        grid-template-columns: 1fr;
+    }
+    .cartao-plano.destaque {
+        transform: none; /* Remove o salto do plano central no telemóvel para encaixar melhor */
+        padding: 40px 30px;
+    }
+    .cartao-plano.destaque:hover {
+        transform: translateY(-5px);
+    }
+}
+/* Responsividade */

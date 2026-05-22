@@ -67,3 +67,17 @@
 .voltar-site a:hover {
     color: var(--gestfy-escuro);
 }
+
+/* Resposividade */
+/* =========================================
+   RESPONSIVIDADE (MOBILE) - LOGIN.CSS
+   ========================================= */
+@media (max-width: 480px) {
+    .cartao-login {
+        padding: 30px 20px;
+    }
+    .cartao-login h2 {
+        font-size: 24px;
+    }
+}
+/* Resposividade */

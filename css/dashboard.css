@@ -321,3 +321,29 @@
     border-radius: 6px;
     border: 1px solid #eaeaea;
 }
+
+/* Responsividade */
+/* =========================================
+   RESPONSIVIDADE (MOBILE) - DASHBOARD.CSS
+   ========================================= */
+@media (max-width: 768px) {
+    .conteudo-principal {
+        padding: 20px; /* Reduz o espaço vazio nas laterais */
+    }
+    .cabecalho-dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .linha-inputs {
+        grid-template-columns: 1fr; /* Formulário de lançamento em fila única */
+    }
+    .grade-cartoes {
+        grid-template-columns: 1fr; /* Cartões de resumo um em baixo do outro */
+    }
+    .barra-segmentada {
+        margin-bottom: 20px;
+    }
+}
+/* Responsividade */

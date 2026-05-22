@@ -153,3 +153,19 @@
     color: #64748b;
     margin-top: 20px;
 }
+
+/* Responsividade */
+/* =========================================
+   RESPONSIVIDADE (MOBILE) - CHECKOUT.CSS
+   ========================================= */
+@media (max-width: 600px) {
+    .linha-inputs {
+        grid-template-columns: 1fr; /* Coloca os campos Nome/CNPJ e Validade/CVV um em baixo do outro */
+    }
+    .header-checkout {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+/* Responsividade */

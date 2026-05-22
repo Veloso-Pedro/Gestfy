@@ -106,18 +106,28 @@ if (btnRelatorio) {
 }
 
 /* =========================================
-   1. INICIALIZAÇÃO
+   1. INICIALIZAÇÃO E SEGURANÇA
    ========================================= */
 async function inicializarDashboard() {
     try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            window.location.href = "login.html";
-            return;
+        // 1. Verifica se existe uma sessão ativa (mais rápido que getUser)
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        // 2. Se não houver sessão, expulsa imediatamente e APAGA o histórico
+        if (sessionError || !session) {
+            console.warn("Acesso negado. A redirecionar para o login...");
+            // ATENÇÃO: Se a tua página de login se chamar index.html, altera aqui em baixo!
+            window.location.replace("login.html"); 
+            return; // Pára a execução do resto do código
         }
+
+        // 3. Opcional: Vai buscar os dados completos do utilizador
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) throw userError;
+
         usuarioAtualId = user.id;
 
-        // Puxa TODOS os dados da empresa em vez de apenas o regime
+        // 4. Puxa os dados da empresa
         const { data: empresa } = await supabase
             .from('empresas')
             .select('*')
@@ -126,22 +136,25 @@ async function inicializarDashboard() {
 
         if (empresa) {
             regimeUsuarioReal = empresa.regime_tributario;
-            dadosEmpresaGlobal = empresa; // Guarda os dados para usar no modal
-            emailGlobal = user.email; // Guarda o e-mail
+            dadosEmpresaGlobal = empresa; 
+            emailGlobal = user.email; 
         }
 
-        // PROTEÇÃO: Só escuta mudanças no filtro se o elemento existir no HTML
+        // 5. O UTILIZADOR É VÁLIDO! "Abre as cortinas" e mostra o painel:
+        document.body.style.opacity = "1";
+
+        // Inicia as funcionalidades normais do dashboard
         if (filtroPeriodo) {
             filtroPeriodo.addEventListener('change', carregarResumoFinanceiro);
-        } else {
-            console.warn("⚠️ Filtro de período não encontrado no HTML (id='filtro-periodo').");
         }
-
         await carregarResumoFinanceiro();
+
     } catch (erro) {
-        console.error("Erro na inicialização:", erro.message);
+        console.error("Erro grave na inicialização:", erro.message);
+        // Em caso de erro catastrófico, expulsa também por segurança
+        window.location.replace("login.html");
     }
-}
+}   
 
 /* =========================================
    2. LÓGICA DE FILTRO DE DATA
