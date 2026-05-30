@@ -1,0 +1,92 @@
+/* ESTRUTURA BASE DO ADMIN */
+.fundo-admin {
+    background-color: #f1f5f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.layout-admin {
+    display: flex;
+    min-height: 100vh;
+}
+
+.cabecalho-admin h1 {
+    color: var(--gestfy-escuro);
+    margin: 0 0 5px 0;
+}
+
+.cabecalho-admin p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* MODAL DE RESPOSTA (IGUAL AO PADRÃO DO DASHBOARD) */
+.modal-oculto {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+.modal-ativo {
+    display: flex;
+}
+
+.modal-conteudo {
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    padding: 30px;
+    animation: deslizarCima 0.3s ease-out;
+}
+
+@keyframes deslizarCima {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.cabecalho-modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.botao-fechar {
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.botao-fechar:hover {
+    color: #ef4444;
+}
+
+/* BOTÃO DE AÇÃO NA TABELA */
+.botao-tabela-responder {
+    background-color: var(--gestfy-roxo);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.botao-tabela-responder:hover {
+    background-color: #6a1b9a;
+}

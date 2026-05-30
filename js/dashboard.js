@@ -223,10 +223,7 @@ async function carregarResumoFinanceiro() {
             } else if (regimeUsuarioReal === 'lucro_presumido') {
                 valorImposto = totalReceitas * 0.1633;
                 textoImposto = "16,33% sobre Receitas";
-            } else if (regimeUsuarioReal === 'lucro_real') {
-                valorImposto = totalReceitas * 0.15;
-                textoImposto = "Reserva de 15%";
-            }
+            } 
         }
 
         const saldoAtual = totalReceitas - totalDespesas;

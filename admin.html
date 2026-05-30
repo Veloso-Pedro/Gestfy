@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Gestfy</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body class="fundo-dashboard">
+
+    <div class="layout-dashboard">
+        <aside class="menu-lateral">
+            <div class="logo-area">
+                <h2>Gestfy.Admin</h2>
+            </div>
+            <nav class="navegacao-lateral">
+                <a href="#" class="ativo">📥 Leads de Contato</a>
+            </nav>
+            <a href="./index.html" class="botao-sair">Sair do Painel</a>
+        </aside>
+
+        <main class="conteudo-principal">
+            <header class="cabecalho-admin">
+                <h1>Painel de Controle de Leads 👋</h1>
+                <p>Gerencie as mensagens recebidas através do formulário de contacto do site principal.</p>
+            </header>
+
+            <div class="cartao-branco margem-topo">
+                <h2>Mensagens Recebidas</h2>
+                <div class="tabela-responsiva">
+                    <table class="tabela-gestfy">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail Profissional</th>
+                                <th>WhatsApp</th>
+                                <th>Mensagem</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-leads">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px; color: #999;">
+                                    A carregar leads...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-resposta" class="modal-oculto">
+        <div class="cartao-branco modal-conteudo">
+            <div class="cabecalho-modal">
+                <h2>Responder Lead</h2>
+                <span id="fechar-modal-resposta" class="botao-fechar">&times;</span>
+            </div>
+            <form id="form-resposta-email" class="formulario">
+                <div class="grupo-input">
+                    <label>Para:</label>
+                    <input type="text" id="email-destinatario" readonly style="background-color: #f1f5f9; color: #64748b;">
+                </div>
+                <div class="grupo-input">
+                    <label for="mensagem-resposta">Escreva a sua resposta:</label>
+                    <textarea id="mensagem-resposta" rows="6" placeholder="Olá! Obrigado pelo contacto. Em relação à sua dúvida..." required></textarea>
+                </div>
+                <button type="submit" class="botao-enviar">Abrir Cliente de E-mail</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./js/supabase-config.js"></script>
+    <script type="module" src="./js/admin.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</body>
+</html>
