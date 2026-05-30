@@ -41,7 +41,6 @@ if (btnConfig && modalConfig && btnFecharModal) {
                 'mei': 'MEI',
                 'me': 'ME (Simples Nacional)',
                 'lucro_presumido': 'Lucro Presumido',
-                'lucro_real': 'Lucro Real'
             };
 
             // Preenche o HTML com os dados guardados
@@ -68,24 +67,17 @@ if (btnConfig && modalConfig && btnFecharModal) {
     });
 }
 
-/* =========================================
-   6. EXPORTAR RELATÓRIO PARA PDF
-   ========================================= */
 const btnRelatorio = document.getElementById('btn-relatorio');
 
 if (btnRelatorio) {
     btnRelatorio.addEventListener('click', (e) => {
         e.preventDefault();
 
-        // Pega a área principal do painel (cartões, gráfico e tabela)
-        // Ignora o menu lateral para o PDF ficar limpo e profissional
         const elementoParaPDF = document.querySelector('.conteudo-principal');
 
-        // Descobre qual o período que está selecionado no filtro
         const filtro = document.getElementById('filtro-periodo');
         const nomePeriodo = filtro ? filtro.options[filtro.selectedIndex].text : 'Completo';
 
-        // Configurações de alta qualidade para o PDF
         const opcoes = {
             margin: [10, 10, 10, 10], // Margens do papel
             filename: `Gestfy_Relatorio_${nomePeriodo.replace(/\s+/g, '_')}.pdf`,
@@ -94,11 +86,9 @@ if (btnRelatorio) {
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Dá feedback visual ao utilizador
         const textoOriginal = btnRelatorio.innerText;
         btnRelatorio.innerText = "⏳ A preparar PDF...";
 
-        // Manda o html2pdf fazer o trabalho e depois restaura o botão
         html2pdf().set(opcoes).from(elementoParaPDF).save().then(() => {
             btnRelatorio.innerText = textoOriginal;
         });
@@ -110,24 +100,19 @@ if (btnRelatorio) {
    ========================================= */
 async function inicializarDashboard() {
     try {
-        // 1. Verifica se existe uma sessão ativa (mais rápido que getUser)
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-        // 2. Se não houver sessão, expulsa imediatamente e APAGA o histórico
         if (sessionError || !session) {
             console.warn("Acesso negado. A redirecionar para o login...");
-            // ATENÇÃO: Se a tua página de login se chamar index.html, altera aqui em baixo!
             window.location.replace("login.html"); 
-            return; // Pára a execução do resto do código
+            return;
         }
 
-        // 3. Opcional: Vai buscar os dados completos do utilizador
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError || !user) throw userError;
 
         usuarioAtualId = user.id;
 
-        // 4. Puxa os dados da empresa
         const { data: empresa } = await supabase
             .from('empresas')
             .select('*')
@@ -140,10 +125,8 @@ async function inicializarDashboard() {
             emailGlobal = user.email; 
         }
 
-        // 5. O UTILIZADOR É VÁLIDO! "Abre as cortinas" e mostra o painel:
         document.body.style.opacity = "1";
 
-        // Inicia as funcionalidades normais do dashboard
         if (filtroPeriodo) {
             filtroPeriodo.addEventListener('change', carregarResumoFinanceiro);
         }
@@ -151,7 +134,6 @@ async function inicializarDashboard() {
 
     } catch (erro) {
         console.error("Erro grave na inicialização:", erro.message);
-        // Em caso de erro catastrófico, expulsa também por segurança
         window.location.replace("login.html");
     }
 }   
@@ -173,7 +155,7 @@ function obterDataInicio(periodo) {
         case 'ano':
             return new Date(hoje.getFullYear(), 0, 1).toISOString();
         default:
-            return null; // Retorna nulo para "tudo"
+            return null;
     }
 }
 
@@ -182,17 +164,14 @@ function obterDataInicio(periodo) {
    ========================================= */
 async function carregarResumoFinanceiro() {
     try {
-        // Verifica qual o filtro selecionado (se o filtro existir)
         const periodoSelecionado = filtroPeriodo ? filtroPeriodo.value : 'tudo';
         const dataInicio = obterDataInicio(periodoSelecionado);
 
-        // Iniciamos a query básica
         let query = supabase
             .from('lancamentos')
             .select('*')
             .eq('empresa_id', usuarioAtualId);
 
-        // Se houver filtro de data, aplicamos .gte (maior ou igual a)
         if (dataInicio) {
             query = query.gte('created_at', dataInicio);
         }
@@ -231,7 +210,6 @@ async function carregarResumoFinanceiro() {
             }
         });
 
-        // Cálculo de Impostos
         let valorImposto = 0;
         let textoImposto = "Aguardando receitas...";
 
@@ -311,7 +289,6 @@ function atualizarGraficoDistribuicao(receitas, despesas, impostos, lucro) {
 /* =========================================
    4. ADICIONAR NOVO LANÇAMENTO
    ========================================= */
-// PROTEÇÃO: Verifica se o formulário existe na página antes de adicionar o evento
 if (formLancamento) {
     formLancamento.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -340,7 +317,7 @@ if (formLancamento) {
             if (error) throw error;
 
             formLancamento.reset();
-            await carregarResumoFinanceiro(); // Atualiza tudo imediatamente
+            await carregarResumoFinanceiro();
 
         } catch (erro) {
             alert("Erro ao registar: " + erro.message);
@@ -351,5 +328,4 @@ if (formLancamento) {
     });
 }
 
-// Inicia a aplicação
 inicializarDashboard();

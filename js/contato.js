@@ -38,7 +38,7 @@ formContato.addEventListener('submit', async function(evento) {
 
     } catch (erro) {
         console.error("Erro ao enviar mensagem: ", erro);
-        alert("Oops! Ocorreu um erro ao enviar a tua mensagem. Tenta novamente mais tarde.");
+        alert("Oops! Ocorreu um erro ao enviar a sua mensagem. Tenta novamente mais tarde.");
     } finally {
         botaoEnviar.innerText = textoOriginalBotao;
         botaoEnviar.disabled = false;

@@ -13,7 +13,7 @@ if (formLogin) {
         const senhaDigitada = document.getElementById('senha').value;
 
         const textoOriginal = btnLogin.innerText;
-        btnLogin.innerText = "A verificar credenciais...";
+        btnLogin.innerText = "Verificando Credenciais...";
         btnLogin.disabled = true;
 
         try {
@@ -24,7 +24,7 @@ if (formLogin) {
 
             if (error) throw error;
 
-            console.log("✅ Login aprovado! A redirecionar...");
+            console.log("✅ Login aprovado! redirecionando...");
             
             window.location.href = "dashboard.html";
 
@@ -32,7 +32,7 @@ if (formLogin) {
             console.error("❌ Falha no login:", erro.message);
             
             if (erro.message.includes("Invalid login credentials")) {
-                alert("⚠️ E-mail ou palavra-passe incorretos. Tenta novamente.");
+                alert("⚠️ E-mail ou palavra-chave incorretos. Tenta novamente.");
             } else {
                 alert("⚠️ Erro ao entrar: " + erro.message);
             }
