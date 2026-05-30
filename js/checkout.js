@@ -8,24 +8,48 @@ console.log("🚀 Motor do Checkout Carregado!");
 function adaptarPlano() {
     const urlParams = new URLSearchParams(window.location.search);
     const planoEscolhido = urlParams.get('plano');
-    
-    // Valores padrão (Anual)
-    let valorPlano = 468.00;
-    let nomePlano = "Plano Anual - Gestfy";
 
-    // Se detetar 'mensal', altera as variáveis
-    if (planoEscolhido === 'mensal') {
-        valorPlano = 49.00;
-        nomePlano = "Plano Mensal - Gestfy";
-        console.log("Mudando para o Plano Mensal...");
+    // Valores padrão (completo)
+    let valorPlano = 400.00;
+    let nomePlano = "Plano Completo - Gestfy";
+    let vantagens = [
+        "Tudo do plano mensal",
+        "Relatórios avançados",
+        "Suporte prioritário via WhatsApp",
+        "1 Consultoria Gratuita por mês"
+    ];
+
+    // Se detectar 'basico', altera as variáveis
+    if (planoEscolhido === 'basico') {
+        valorPlano = 60.00;
+        nomePlano = "Plano basico - Gestfy";
+        vantagens = [
+            "Acesso total ao sistema",
+            "Gestão de Notas Fiscais",
+            "Suporte por email"
+        ];
+        console.log("Mudando para o Plano basico...");
     }
 
     // Aplica as mudanças no HTML
     const precoFormatado = valorPlano.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    
+
     document.getElementById('resumo-nome-plano').innerText = nomePlano;
     document.getElementById('resumo-preco-plano').innerText = precoFormatado;
     document.getElementById('resumo-preco-total').innerText = precoFormatado;
+
+    // Aplica as mudanças na lista de vantagens
+    const ulVantagens = document.querySelector('.lista-vantagens');
+    if (ulVantagens) {
+        ulVantagens.innerHTML = ''; // Limpa as vantagens antigas do HTML
+
+        // Adiciona as novas vantagens com base no plano escolhido
+        vantagens.forEach(textoVantagem => {
+            const li = document.createElement('li');
+            li.innerHTML = `✔️ ${textoVantagem}`;
+            ulVantagens.appendChild(li);
+        });
+    }
 
     return valorPlano; // Devolve o valor exato para cobrarmos no banco de dados
 }

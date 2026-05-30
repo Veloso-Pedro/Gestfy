@@ -453,6 +453,11 @@ body {
     color: #64748b;
 }
 
+.cartao-plano.consultoria .preco {
+    font-size: 32px;
+    word-wrap: break-word;
+}
+
 .cartao-plano.destaque {
     border: 3px solid var(--gestfy-roxo);
     transform: scale(1.05);
@@ -558,11 +563,11 @@ body {
     position: relative;
     max-width: 900px;
     margin: 0 auto;
-    gap: 15px; 
+    gap: 15px;
 }
 
 .carrossel-container {
-    overflow: hidden; 
+    overflow: hidden;
     width: 100%;
     padding: 20px 0;
     border-radius: 16px;
@@ -575,18 +580,18 @@ body {
 }
 
 .cartao-avaliacao {
-    flex: 0 0 100%; 
+    flex: 0 0 100%;
     box-sizing: border-box;
-    
+
     background-color: #ffffff;
     border-radius: 16px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(21, 16, 48, 0.15);
-    
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
     transition: transform 0.3s;
 }
 
@@ -614,7 +619,7 @@ body {
     align-items: center;
     box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
     transition: transform 0.2s;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .botao-carrossel:hover {
@@ -651,6 +656,7 @@ body {
     color: #64748b;
     font-size: 13px;
 }
+
 /*Fim body*/
 /*Inicio footer*/
 
@@ -745,17 +751,20 @@ body {
    RESPONSIVIDADE (MOBILE) - STYLE.CSS
    ========================================= */
 @media (max-width: 768px) {
+
     /* Ajusta o Menu */
     .menu-navegacao {
         flex-direction: column;
         gap: 15px;
         padding: 20px;
     }
+
     .links-menu {
         flex-wrap: wrap;
         justify-content: center;
         gap: 15px;
     }
+
     .acoes-menu {
         width: 100%;
         justify-content: center;
@@ -765,23 +774,30 @@ body {
     .hero-conteudo h1 {
         font-size: 32px;
     }
+
     .botoes-hero {
         flex-direction: column;
         width: 100%;
         gap: 15px;
     }
-    .botao-hero-primario, .botao-hero-secundario {
+
+    .botao-hero-primario,
+    .botao-hero-secundario {
         width: 100%;
         box-sizing: border-box;
     }
 
     /* Ajusta a Demonstração (Mockup) */
     .mockup-sistema {
-        grid-template-columns: 1fr; /* Remove a divisão lado a lado */
+        grid-template-columns: 1fr;
+        /* Remove a divisão lado a lado */
     }
+
     .mockup-sidebar {
-        display: none; /* Esconde o menu lateral do desenho para poupar espaço no telemóvel */
+        display: none;
+        /* Esconde o menu lateral do desenho para poupar espaço no telemóvel */
     }
+
     .mockup-cards {
         grid-template-columns: 1fr;
     }
@@ -790,12 +806,24 @@ body {
     .sobre-grid {
         grid-template-columns: 1fr;
     }
+
     .cartao-plano.destaque {
-        transform: none; /* Remove o salto do plano central no telemóvel para encaixar melhor */
+        transform: none;
+        /* Remove o salto do plano central no telemóvel para encaixar melhor */
         padding: 40px 30px;
     }
+
     .cartao-plano.destaque:hover {
         transform: translateY(-5px);
     }
+
+    .preco {
+        font-size: 38px;
+    }
+
+    .cartao-plano.consultoria .preco {
+        font-size: 26px; 
+    }
 }
+
 /* Responsividade */
